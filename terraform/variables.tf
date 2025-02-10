@@ -1,6 +1,7 @@
 variable "db_username" {
   description = "Usuário do banco de dados"
   type        = string
+  default     = "admin"
 }
 
 variable "db_password" {

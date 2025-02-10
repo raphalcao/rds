@@ -1,0 +1,44 @@
+name: 🚀 Deploy RDS MySQL 8
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: Deploy AWS RDS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: 🔑 Configurar Credenciais AWS
+        run: |
+          mkdir -p ~/.aws
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+          echo "[default]" > ~/.aws/config
+          echo "region=${{ secrets.AWS_REGION }}" >> ~/.aws/config
+          chmod 600 ~/.aws/credentials ~/.aws/config
+
+      - name: 🏗️ Instalar Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.0
+
+      - name: 🔄 Inicializar Terraform
+        run: |
+          cd terraform
+          terraform init
+
+      - name: ✅ Aplicar Terraform
+        run: |
+          cd terraform
+          terraform apply -auto-approve
