@@ -38,7 +38,9 @@ jobs:
           cd terraform
           terraform init
 
-      - name: ✅ Aplicar Terraform
+      - name: ✅ Aplicar Terraform (Passando Variáveis)
         run: |
           cd terraform
-          terraform apply -auto-approve
+          terraform apply -auto-approve \
+            -var-file="terraform.tfvars" \
+            -var="db_password=${{ secrets.DB_PASSWORD }}"
