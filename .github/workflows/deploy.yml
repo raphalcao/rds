@@ -42,5 +42,5 @@ jobs:
         run: |
           cd terraform
           terraform apply -auto-approve \
-            -var-file="terraform.tfvars" \
+            -var-file="terraform/terraform.tfvars" \
             -var="db_password=${{ secrets.DB_PASSWORD }}"
