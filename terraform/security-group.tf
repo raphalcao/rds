@@ -1,11 +1,3 @@
-# 🔍 Verifica se o Security Group já existe
-data "aws_security_group" "existing_sg" {
-  filter {
-    name   = "group-name"
-    values = ["rds-sg"]
-  }
-}
-
 # 📌 **Criação do Security Group somente se não existir**
 resource "aws_security_group" "rds_sg" {
   count       = length(try(data.aws_security_group.existing_sg.id, "")) > 0 ? 0 : 1
