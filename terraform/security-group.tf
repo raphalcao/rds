@@ -1,14 +1,14 @@
-# 🔍 Verifica se o Security Group "rds-sg" já existe
-data "aws_security_group" "existing_rds_sg" {
+# 🔍 Verifica se o Security Group já existe
+data "aws_security_group" "existing_sg" {
   filter {
     name   = "group-name"
     values = ["rds-sg"]
   }
 }
 
-# 🏗️ Cria o Security Group apenas se ele não existir
+# 📌 **Criação do Security Group somente se não existir**
 resource "aws_security_group" "rds_sg" {
-  count       = length(try(data.aws_security_group.existing_rds_sg.id, "")) > 0 ? 0 : 1
+  count       = length(try(data.aws_security_group.existing_sg.id, "")) > 0 ? 0 : 1
   name        = "rds-sg"
   description = "Security Group para RDS MySQL"
   vpc_id      = var.vpc_id
@@ -17,7 +17,7 @@ resource "aws_security_group" "rds_sg" {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # ⚠️ Ajuste para IP da sua aplicação
+    cidr_blocks = ["0.0.0.0/0"]  # ⚠️ Substitua pelo IP da sua aplicação
   }
 
   egress {
