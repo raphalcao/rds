@@ -19,7 +19,7 @@ resource "aws_db_instance" "rds_mysql" {
   db_subnet_group_name = data.aws_db_subnet_group.existing_subnet_group.name
 
   # 🔹 Usa o Security Group existente
-  vpc_security_group_ids = [data.aws_security_group.existing_sg.id]
+  vpc_security_group_ids = ["rds-subnet-group"]
 
   skip_final_snapshot   = true
 }
