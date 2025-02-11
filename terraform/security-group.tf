@@ -1,6 +1,5 @@
-# 📌 **Criação do Security Group somente se não existir**
 resource "aws_security_group" "rds_sg" {
-  count       = length(try(data.aws_security_group.existing_sg.id, "")) > 0 ? 0 : 1
+  count       = 1
   name        = "rds-sg"
   description = "Security Group para RDS MySQL"
   vpc_id      = var.vpc_id
