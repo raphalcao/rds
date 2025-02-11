@@ -28,6 +28,11 @@ jobs:
           echo "region=${{ secrets.AWS_REGION }}" >> ~/.aws/config
           chmod 600 ~/.aws/credentials ~/.aws/config
 
+      - name: 🔍 Verificar Credenciais AWS
+        run: |
+          export AWS_PROFILE=default
+          aws sts get-caller-identity
+
       - name: 🏗️ Instalar Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -36,12 +41,14 @@ jobs:
       - name: 🔄 Inicializar Terraform
         run: |
           export AWS_PROFILE=default
+          export AWS_SDK_LOAD_CONFIG=1
           cd terraform
           terraform init
 
       - name: ✅ Aplicar Terraform (Passando Variáveis e Forçando Perfil Default)
         run: |
           export AWS_PROFILE=default
+          export AWS_SDK_LOAD_CONFIG=1
           cd terraform
           terraform apply -auto-approve \
             -var-file="../terraform/terraform.tfvars" \
