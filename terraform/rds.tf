@@ -8,12 +8,16 @@ resource "aws_db_instance" "rds_mysql" {
   username             = var.db_username
   password             = var.db_password
   publicly_accessible   = false
-  db_subnet_group_name  = aws_db_subnet_group.rds_subnet_group.name
+  db_subnet_group_name  = aws_db_subnet_group.rds_subnet_group.id  # ✅ Alterado de .name para .id
   vpc_security_group_ids = [aws_security_group.rds_sg[0].id]
   skip_final_snapshot   = true
 }
 
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name       = "rds-subnet-group"
-  subnet_ids = var.private_subnets
+  subnet_ids = var.private_subnets  # ✅ Certifique-se de que contém a nova subnet
+
+  tags = {
+    Name = "rds-subnet-group"
+  }
 }
