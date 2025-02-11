@@ -1,4 +1,9 @@
-# 📌 **Criação da Instância do RDS (sem criar Subnet/Security Group)**
+# 🔍 Referência ao Subnet Group existente (se já estiver criado)
+data "aws_db_subnet_group" "existing_subnet_group" {
+  name = "vpc-08622ed23697cddcd"  # Nome do Subnet Group já existente na AWS
+}
+
+# 📌 **Força a Subnet Específica**
 resource "aws_db_instance" "rds_mysql" {
   allocated_storage      = 20
   storage_type           = "gp2"
@@ -17,4 +22,14 @@ resource "aws_db_instance" "rds_mysql" {
   vpc_security_group_ids = [data.aws_security_group.existing_sg.id]
 
   skip_final_snapshot   = true
+}
+
+# 🔹 Força o uso da Subnet `subnet-0814e78f75045a3ad`
+resource "aws_db_subnet_group" "rds_subnet_group" {
+  name       = "rds-subnet-group"
+  subnet_ids = ["subnet-0814e78f75045a3ad"]  # ⚠️ Alterado para usar apenas essa Subnet
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
