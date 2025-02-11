@@ -18,12 +18,15 @@ jobs:
       - name: 📥 Checkout do Código
         uses: actions/checkout@v4
 
-      - name: 🔑 Configurar Credenciais AWS
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+      - name: 🔑 Configurar Credenciais AWS (Forçando Perfil Default)
+        run: |
+          mkdir -p ~/.aws
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+          echo "[default]" > ~/.aws/config
+          echo "region=${{ secrets.AWS_REGION }}" >> ~/.aws/config
+          chmod 600 ~/.aws/credentials ~/.aws/config
 
       - name: 🏗️ Instalar Terraform
         uses: hashicorp/setup-terraform@v2
@@ -32,11 +35,13 @@ jobs:
 
       - name: 🔄 Inicializar Terraform
         run: |
+          export AWS_PROFILE=default
           cd terraform
           terraform init
 
-      - name: ✅ Aplicar Terraform (Passando Variáveis)
+      - name: ✅ Aplicar Terraform (Passando Variáveis e Forçando Perfil Default)
         run: |
+          export AWS_PROFILE=default
           cd terraform
           terraform apply -auto-approve \
             -var-file="../terraform/terraform.tfvars" \
