@@ -47,3 +47,22 @@ O comando irá retornar conforme o exemplo:
     "subnet-0814e78f75045a3ad",
     "subnet-04a46c8aaf63647cb"
 ]
+
+### Caso dê erro de autenticação, vá no terminal da aws e faça: 
+    1. `rm -rf ~/.aws`
+       `mkdir -p ~/.aws`
+
+    2. Cole diretamente no terminal
+        [default]
+        aws_access_key_id={Key_id}
+        aws_secret_access_key={access_key}
+        aws_session_token={session_token}
+        EOF
+
+        Exemplo: 
+        cat <<EOF > ~/.aws/credentials
+        [default]
+        aws_access_key_id=ASIAUCFCVMMXMC6HNZIB
+        aws_secret_access_key=kiABWiG1QQTSVflU+hbmmWgrSGtB3r8MI0XwDukv
+        aws_session_token=IQoJb3JpZ2luX2VjELz//////////wEaCXVzLXdlc3QtMiJHMEUCIBhoUpGGTE5hUBuwvPo5difZtUDZBAahd+HnAlNBppCEAiEAswqv      +viJv4RpT6Y4Hl13L71a1imqbeXwHadpheKUPsIqtgII1f//////////ARABGgwyNzk1MTQwMTQ1MTAiDOe5VYmx5ch8k3s+uSqKAi7XOTUVYQOWfi/vRYJuaQgkU1sBbwQETfkBerMRsBDB/   EMrP5DwxiucfRQPd5OGBCMw3Yj/S9WxBOTkyFvWSGR9NO4EnIf/   ONWJSxedBTbkzZ11sfiuB4vt22pWWILKPQs37W6jBU7nqHbOBbH6ghuUlu9SCp2DCTVGhLsAdXNPAfmxpLPIniyOlQhvR2rOYIDInDgLithu91Wjvm6jbimzUFKqzibot6M3T3C5BJ0sNpzADKuUZrlntxw4utio/    xlMySUt11FP3nG2PV5JI99STY4BieZQi7Q8zlE1IRrqNYfBoM03yfAVZoTrx08R0IdhYUUDqM9wVlh2phrxu5wg5G5qAHvqVaeuMOHsrL0GOp0BjFuISapIe7/nNXnu608VtK4Lk   +gntx2JZIQB6g8Auw9xmhOZqbmTvYuHk2ZKa72xPyecnwoJPxkC26kOSGfGjUgyvWFx0yZwQbzpmd7oUvmSpHuOU3685QQ0Hx2XBMVTuf6YmtKrFAO1HrdXNAoGFdg7ONqLrKmBTlTPDPZSdztFGYZj3Qlo2rz5ZGO    Gk3Hit6dZxKyxga8fcLYJfA==
+        EOF
