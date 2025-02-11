@@ -9,7 +9,7 @@ resource "aws_db_instance" "rds_mysql" {
   password             = var.db_password
   publicly_accessible   = false
   db_subnet_group_name  = aws_db_subnet_group.rds_subnet_group.name
-  vpc_security_group_ids = [aws_security_group.rds_sg.id]
+  vpc_security_group_ids = [aws_security_group.rds_sg[0].id]
   skip_final_snapshot   = true
 }
 
