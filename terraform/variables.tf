@@ -19,3 +19,8 @@ variable "private_subnets" {
   description = "Lista de subnets privadas para o RDS"
   type        = list(string)
 }
+
+variable "app_ip" {
+  description = "IP da aplicação que pode acessar o banco de dados"
+  type        = string
+}
